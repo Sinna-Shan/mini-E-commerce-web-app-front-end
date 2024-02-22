@@ -1,17 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import "./../../main.css";
-import { Outlet, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function CrudPage(props) {
+  const [imageUrls, setImageUrls] = useState([]);
+
+  const handleFileChange = (event) => {
+    const files = event.target.files;
+
+    Array.from(files).forEach((file) => {
+      const reader = new FileReader();
+
+      reader.readAsDataURL(file);
+
+      reader.onload = () => {
+        const imageUrl = reader.result;
+        setImageUrls((prevImageUrls) => [...prevImageUrls, imageUrl]);
+      };
+    });
+  };
+
+  const upperCase = function (value) {
+    return value.toUpperCase();
+  };
+
   return (
     <div className="page-container">
-      <div className="product-page">
-        <button className="btn-back"> <Link to={'/'} className="nav-link">👈</Link></button>
-        <h1>
-          Products &gt; <h6>{props.title}</h6>
-        </h1>
+      <div className="page">
+        <button className="btn-back">
+          {" "}
+          <Link to={"/"} className="nav-link">
+            👈
+          </Link>
+        </button>
+        <div className="heading-container">
+          <h1>{`${upperCase("products")} > `}</h1>
+          <h4>{`  ${upperCase(props.title)}`}</h4>
+        </div>
         <form action="post">
           <table className="tbl-form">
+          <tbody>
             <tr className="tbl-form-tr">
               <td className="tbl-form-td">
                 <label className="lbl" htmlFor="sku">
@@ -64,10 +92,23 @@ export default function CrudPage(props) {
                 </label>
               </td>
               <td className="tbl-form-td">
-                <input className="input input-img" type="file" />
+                <input
+                  className="input input-img"
+                  type="file"
+                  multiple
+                  onChange={handleFileChange}
+                />
               </td>
-              <td className="tbl-form-td"></td>
-              <td className="tbl-form-td"></td>
+              <td className="tbl-form-td" colSpan={2}>
+                {imageUrls.map((imageUrl, index) => (
+                  <img
+                    key={index}
+                    src={imageUrl}
+                    alt={`Image ${index}`}
+                    className="prod-img"
+                  />
+                ))}
+              </td>
             </tr>
             <tr className="tbl-form-tr">
               <td className="tbl-form-td"></td>
@@ -81,6 +122,7 @@ export default function CrudPage(props) {
                 />
               </td>
             </tr>
+            </tbody>
           </table>
         </form>
       </div>
