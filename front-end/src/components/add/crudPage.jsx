@@ -6,7 +6,7 @@ export default function CrudPage(props) {
   return (
     <div className="page-container">
       <div className="product-page">
-        <button className="btn-back"> 👈</button>
+        <button className="btn-back"> <Link to={'/'} className="nav-link">👈</Link></button>
         <h1>
           Products &gt; <h6>{props.title}</h6>
         </h1>

@@ -17,6 +17,10 @@ const router = createBrowserRouter([
     path: "/create",
     element: <CrudPage title={"Add new product"} btnTxt={"Add product"}/>,
   },
+  {
+    path: "/edit",
+    element: <CrudPage title={"Edit product"} btnTxt={"save changes"}/>,
+  },
 ])
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

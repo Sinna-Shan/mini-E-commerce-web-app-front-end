@@ -43,7 +43,7 @@ export default function Product() {
             <td>25.00</td>
             <td>
               <div className="action-btn-container">
-                <Link to="">
+                <Link to="/edit">
                   <img src="assets/edit-icon.svg" alt="edit" />
                 </Link>
                 <Link to="">
