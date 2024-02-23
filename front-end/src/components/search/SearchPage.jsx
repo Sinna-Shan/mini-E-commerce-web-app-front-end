@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./../../main.css";
 import { Link } from "react-router-dom";
-import DeletePopup from "../delete/deletePopup";
-import Row from "../row/row";
+
 
 export default function Search(props) {
   const [products, setProducts] = useState([]);
-  const [del, setDel] = useState(false);
-  const [favorite, setFavorite] = useState(false);
-  const [product, setProduct] = useState({});
   const [input, setInput] = useState("");
 
   useEffect(function () {
@@ -29,14 +25,6 @@ export default function Search(props) {
     const search = products.filter((file) => file.name === input);
     setInput("");
     setProducts(search);
-  };
-  const handelDelete = function () {
-    console.log(del);
-    setDel(!del);
-  };
-
-  const handelFavorite = function () {
-    setFavorite(!favorite);
   };
 
   const upperCase = function (value) {
