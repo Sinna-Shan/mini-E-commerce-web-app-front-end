@@ -1,18 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./../../main.css";
 import { Link } from "react-router-dom";
 import DeletePopup from "../delete/deletePopup";
+import Row from "../row/row";
 
 export default function Product(props) {
+  const [products, setProducts] = useState([]);
   const [del, setDel] = useState(false);
   const [favorite, setFavorite] = useState(false);
+  const [product,setProduct]= useState({});
+  
+
+  useEffect(function () {
+    const fetchData = async () => {
+      try {
+        const res = await fetch("http://127.0.0.1:8000/api/v1/products");
+        const data = await res.json();
+        setProducts(data.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchData();
+  }, []);
 
   const handelDelete = function () {
+    console.log(del);
     setDel(!del);
   };
 
   const handelFavorite = function () {
-    console.log(favorite);
     setFavorite(!favorite);
   };
 
@@ -23,11 +40,13 @@ export default function Product(props) {
   return (
     <div className="page-container">
       <div className="page">
-        {props.heading==='favorites products'&& <button className="btn-back">
-          <Link to={"/"} className="nav-link">
-            👈
-          </Link>
-        </button>}
+        {props.heading === "favorites products" && (
+          <button className="btn-back">
+            <Link to={"/"} className="nav-link">
+              👈
+            </Link>
+          </button>
+        )}
         <h1 className="prod-header">{upperCase(props.heading)}</h1>
         <div className="first-raw">
           <div className="search-field-container">
@@ -58,40 +77,19 @@ export default function Product(props) {
               <th className="tbl-prod-th"></th>
             </tr>
           </thead>
-          <tbody>
-            <tr className="tbl-prod-tr">
-              <td>#CA25</td>
-              <td>
-                <img
-                  src="assets/product-img-1.png"
-                  alt="pro-img"
-                  className="prod-img"
-                />
-              </td>
-              <td>product-name</td>
-              <td>25.00</td>
-              <td>
-                <div className="action-btn-container">
-                  <Link to="/edit">
-                    <img src="assets/edit-icon.svg" alt="edit" />
-                  </Link>
-                  <Link to="" value={del} onClick={() => handelDelete()}>
-                    <img src="assets/delete-icon.svg" alt="delete" />
-                  </Link>
-                  <Link to="">
-                    <img
-                      src={`${favorite ? "assets/star" : "assets/starred"}.svg`}
-                      alt="favorite"
-                      onClick={() => handelFavorite()}
-                    />
-                  </Link>
-                </div>
-              </td>
-            </tr>
-          </tbody>
+          {products.map(prod => <Row
+          key={prod._id}
+            del={del}
+            favorite={favorite}
+            handelFavorite={handelFavorite}
+            product={prod}
+            newProduct={product}
+            handelDelete={handelDelete}
+            setProduct={setProduct}
+          />)}
         </table>
       </div>
-      <DeletePopup show={setDel} state={del} />
+      <DeletePopup handelDelete={handelDelete} del={del} product={product}/>
     </div>
   );
 }
