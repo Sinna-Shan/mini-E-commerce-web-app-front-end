@@ -5,12 +5,10 @@ import { Link } from "react-router-dom";
 export default function DeletePopup(props) {
   const handelCancel = function () {
     props.handelDelete(!props.del);
-    console.log(props.del);
   };
 
   const handelDelete = async function () {
     try {
-      console.log(props.product._id);
       await axios.delete(
         `http://localhost:8000/api/v1/products/${props.product._id}`
       );
@@ -19,6 +17,7 @@ export default function DeletePopup(props) {
       console.error("Error deleting item:", error);
     }
   };
+
   return (
     <div className={`popup-background ${props.del ? "" : "hidden"}`}>
       <div className="modal">

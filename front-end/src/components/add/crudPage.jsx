@@ -38,6 +38,7 @@ export default function CrudPage(props) {
         setFormDataValue(res);
       } catch (err) {
         console.log(err);
+        alert(`💥💥${err.message}`);
       }
     };
 
@@ -51,6 +52,7 @@ export default function CrudPage(props) {
       [name]: value,
     });
   };
+
   const clearFields = () => {
     setFormDataValue({
       SKU: "",
@@ -84,6 +86,7 @@ export default function CrudPage(props) {
       console.log(res);
       clearFields();
     } catch (err) {
+      console.log(err);
       alert(`💥💥 ${err}`);
     }
   };
@@ -234,7 +237,7 @@ export default function CrudPage(props) {
                     <img
                       key={index}
                       src={imageUrl}
-                      alt={`Image ${index}`}
+                      alt={`product ${index}`}
                       className="prod-img"
                     />
                   ))}

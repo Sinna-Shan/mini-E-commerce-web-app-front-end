@@ -24,7 +24,6 @@ export default function Product(props) {
   }, []);
 
   const handelDelete = function () {
-    console.log(del);
     setDel(!del);
   };
 

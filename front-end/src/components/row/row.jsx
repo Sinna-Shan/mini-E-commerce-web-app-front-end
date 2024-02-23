@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
 export default function Row(props) {
-  const [render, setRender] = useState(props.newProduct.isFavorite);
   const [favorite, setFavorite] = useState(false);
   const setProductId = function () {
     props.setProduct(props.product);
