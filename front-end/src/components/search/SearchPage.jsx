@@ -75,7 +75,7 @@ export default function Search(props) {
           </div>
         </div>
         {products.map((prod) => (
-          <div className="elementOuterContainer">
+          <div className="elementOuterContainer" key={prod._id}>
             <div className="elementContainer">
               <h4 className="search-sku">{prod.SKU}</h4>
               <h3 className="search-name">{prod.name}</h3>
