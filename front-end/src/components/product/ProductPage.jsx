@@ -7,8 +7,8 @@ import Row from "../row/row";
 export default function Product(props) {
   const [products, setProducts] = useState([]);
   const [del, setDel] = useState(false);
-  const [favorite, setFavorite] = useState(false);
   const [product, setProduct] = useState({});
+  
 
   useEffect(function () {
     const fetchData = async () => {
@@ -28,9 +28,6 @@ export default function Product(props) {
     setDel(!del);
   };
 
-  const handelFavorite = function () {
-    setFavorite(!favorite);
-  };
 
   const upperCase = function (value) {
     return value.toUpperCase();
@@ -48,8 +45,7 @@ export default function Product(props) {
         )}
         <h1 className="prod-header">{upperCase(props.heading)}</h1>
         <div className="first-raw">
-          <div className="search-field-container">
-            {/* <input type="text" className="inp-field" /> */}
+          <div className="search-field-container" style={{backgroundColor:"transparent"}}>
             <button className="btn search-btn">
               <Link to={`/search`} className="nav-link">
                 search
@@ -84,8 +80,6 @@ export default function Product(props) {
             <Row
               key={prod._id}
               del={del}
-              favorite={favorite}
-              handelFavorite={handelFavorite}
               product={prod}
               newProduct={product}
               handelDelete={handelDelete}

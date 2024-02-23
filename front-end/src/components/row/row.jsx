@@ -1,18 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function Row(props) {
   const [render, setRender] = useState(props.newProduct.isFavorite);
+  const [favorite, setFavorite] = useState(false);
   const setProductId = function () {
     props.setProduct(props.product);
     props.handelDelete();
   };
 
   const handleFavorite = function () {
-    // const favProduct = {...props.product,isFavorite: !props.product.isFavorite};
-    props.product.isFavorite = !props.product.isFavorite;
-    props.setProduct(props.product);
-    setRender(props.newProduct.isFavorite);
+      setFavorite(!favorite);
   };
 
   return (
@@ -34,7 +33,7 @@ export default function Row(props) {
               <Link
                 to={{
                   pathname: "/edit",
-                  search: props.product._id
+                  search: props.product._id,
                 }}
               >
                 <img src="assets/edit-icon.svg" alt="edit" />
@@ -44,11 +43,7 @@ export default function Row(props) {
               </Link>
               <Link to="">
                 <img
-                  src={`${
-                    props.newProduct.isFavorite
-                      ? "assets/star"
-                      : "assets/starred"
-                  }.svg`}
+                  src={`${!favorite ? "assets/star" : "assets/starred"}.svg`}
                   alt="favorite"
                   onClick={() => {
                     handleFavorite();
