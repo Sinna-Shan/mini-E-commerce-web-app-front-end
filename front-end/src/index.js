@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import Product from "./components/product/ProductPage";
 import CrudPage from "./components/add/crudPage";
+import Search from "./components/search/SearchPage";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,14 @@ const router = createBrowserRouter([
   {
     path: "/favorites",
     element: <Product heading={"favorites products"} />,
+  },
+  {
+    path: "/favorites",
+    element: <Product heading={"favorites products"} />,
+  },
+  {
+    path: "/search",
+    element: <Search heading={"search products"} />,
   },
 ]);
 
