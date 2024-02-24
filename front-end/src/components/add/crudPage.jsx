@@ -239,14 +239,20 @@ export default function CrudPage(props) {
                   />
                 </td>
                 <td className="tbl-form-td" colSpan={2}>
-                  {imageUrls.map((imageUrl, index) => (
-                    <img
-                      key={index}
-                      src={imageUrl}
-                      alt={`product ${index}`}
-                      className="prod-img"
-                    />
-                  ))}
+                  {imageUrls.length !== 0 ? (
+                    imageUrls.map((imageUrl, index) => (
+                      <img
+                        key={index}
+                        src={imageUrl}
+                        alt={`product ${index}`}
+                        className="prod-img"
+                      />
+                    ))
+                  ) : (
+                    <h4 style={{ color: "orangered" }}>
+                      Please select image(s)
+                    </h4>
+                  )}
                 </td>
               </tr>
               <tr className="tbl-form-tr">
