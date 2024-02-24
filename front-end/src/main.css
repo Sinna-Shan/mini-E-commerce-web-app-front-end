@@ -306,3 +306,20 @@ H1 {
 .arrow {
   margin-right: 40px;
 }
+
+.dropdown {
+  position: absolute;
+  top: 280px;
+  width: 300px;
+  height: auto !important;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.dropdownRow {
+  margin-bottom: 7px;
+  padding-bottom: 8px;
+  padding-left: 10px;
+  border-bottom: 1px solid #eae9e9;
+}

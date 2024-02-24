@@ -13,6 +13,7 @@ export default function Search(props) {
         const res = await fetch("http://127.0.0.1:8000/api/v1/products");
         const data = await res.json();
         setProducts(data.data);
+        setSearchResults(data.data);
       } catch (err) {
         console.error(err);
       }
@@ -22,18 +23,22 @@ export default function Search(props) {
 
   const handelSearch = function () {
     if (!input || input === "") return setSearchResults(products);
+
     const search = products.filter((file) => {
       const name = file.name.toLowerCase();
       const searchTerm = input.toLowerCase();
       return searchTerm && name.startsWith(searchTerm);
     });
-    console.log(search);
     setInput("");
     setSearchResults(search);
   };
 
   const upperCase = function (value) {
     return value.toUpperCase();
+  };
+
+  const handleSearch = (searchTerm) => {
+    setInput(searchTerm);
   };
 
   return (
@@ -58,6 +63,30 @@ export default function Search(props) {
             <button className="btn search-btn" onClick={handelSearch}>
               search
             </button>
+            {input !== "" && (
+              <div className="dropdown">
+                {products
+                  .filter((product) => {
+                    const name = product.name.toLowerCase();
+                    const searchTerm = input.toLowerCase();
+                    return (
+                      searchTerm &&
+                      name.startsWith(searchTerm) &&
+                      name !== searchTerm
+                    );
+                  })
+                  .slice(0, 10)
+                  .map((product) => (
+                    <div
+                      key={product._id}
+                      className="dropdownRow"
+                      onClick={() => handleSearch(product.name)}
+                    >
+                      {product.name}
+                    </div>
+                  ))}
+              </div>
+            )}
           </div>
           <div className="new-and-fav">
             <button className="btn new-btn">
@@ -67,24 +96,32 @@ export default function Search(props) {
             </button>
           </div>
         </div>
-        {searchResults.length !== 0 ? searchResults.map((prod) => (
-          <div className="elementOuterContainer" key={prod._id}>
-            <div className="elementContainer">
-              <h4 className="search-sku">{prod.SKU}</h4>
-              <h3 className="search-name">{prod.name}</h3>
-              <h6 className="search-desc">{prod.description}</h6>
+        {searchResults.length !== 0 ? (
+          searchResults.map((prod) => (
+            <div className="elementOuterContainer" key={prod._id}>
+              <div className="elementContainer">
+                <h4 className="search-sku">{prod.SKU}</h4>
+                <h3 className="search-name">{prod.name}</h3>
+                <h6 className="search-desc">{prod.description}</h6>
+              </div>
+              <div>
+                <img src="assets/arrow.svg" alt="" className="arrow" />
+              </div>
             </div>
-            <div>
-              <img src="assets/arrow.svg" alt="" className="arrow" />
-            </div>
+          ))
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              height: "300px",
+            }}
+          >
+            <h2>NO RESULTS FOUND</h2>
           </div>
-        )): <div style={{
-          display:'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: '100%',
-          height:'300px',
-        }}><h2>NO RESULTS FOUND</h2></div>}
+        )}
       </div>
     </div>
   );
