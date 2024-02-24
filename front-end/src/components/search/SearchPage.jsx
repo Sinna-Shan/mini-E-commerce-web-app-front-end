@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./../../main.css";
 import { Link } from "react-router-dom";
 
-
 export default function Search(props) {
   const [products, setProducts] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [input, setInput] = useState("");
 
   useEffect(function () {
@@ -21,10 +21,15 @@ export default function Search(props) {
   }, []);
 
   const handelSearch = function () {
-    if (!input || input === "") setProducts(products);
-    const search = products.filter((file) => file.name === input);
+    if (!input || input === "") return setSearchResults(products);
+    const search = products.filter((file) => {
+      const name = file.name.toLowerCase();
+      const searchTerm = input.toLowerCase();
+      return searchTerm && name.startsWith(searchTerm);
+    });
+    console.log(search);
     setInput("");
-    setProducts(search);
+    setSearchResults(search);
   };
 
   const upperCase = function (value) {
@@ -34,12 +39,12 @@ export default function Search(props) {
   return (
     <div className="page-container">
       <div className="page">
-          <button className="btn-back">
-            <Link to={"/"} className="nav-link">
-              👈
-            </Link>
-          </button>
-        
+        <button className="btn-back">
+          <Link to={"/"} className="nav-link">
+            👈
+          </Link>
+        </button>
+
         <h1 className="prod-header">{upperCase(props.heading)}</h1>
         <div className="first-raw">
           <div className="search-field-container">
@@ -62,7 +67,7 @@ export default function Search(props) {
             </button>
           </div>
         </div>
-        {products.map((prod) => (
+        {searchResults.length !== 0 ? searchResults.map((prod) => (
           <div className="elementOuterContainer" key={prod._id}>
             <div className="elementContainer">
               <h4 className="search-sku">{prod.SKU}</h4>
@@ -70,10 +75,16 @@ export default function Search(props) {
               <h6 className="search-desc">{prod.description}</h6>
             </div>
             <div>
-              <img src="assets/arrow.svg" alt=""  className="arrow"/>
+              <img src="assets/arrow.svg" alt="" className="arrow" />
             </div>
           </div>
-        ))}
+        )): <div style={{
+          display:'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          height:'300px',
+        }}><h2>NO RESULTS FOUND</h2></div>}
       </div>
     </div>
   );
