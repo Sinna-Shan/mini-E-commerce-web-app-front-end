@@ -14,10 +14,15 @@ export default function Row(props) {
   // handling star button click
   const handleFavorite = async function () {
     try {
+
+      // find the index of of the current element in the parent state
       const index = props.products.findIndex(
         (p) => p._id === props.product._id
       );
+      // change the is favorite state in parent state
       props.products[index].isFavorite = !props.products[index].isFavorite;
+
+      //update data base
       await axios.patch(
         `http://localhost:8000/api/v1/products/${props.product._id}`,
         { isFavorite: props.product.isFavorite }
