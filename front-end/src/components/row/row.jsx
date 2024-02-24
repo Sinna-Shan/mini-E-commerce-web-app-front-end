@@ -1,8 +1,9 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function Row(props) {
-  const [favorite, setFavorite] = useState(false);
+  const [favorite, setFavorite] = useState(props.product.isFavorite);
 
   //set the current product in the parent state
   const setProductId = function () {
@@ -11,8 +12,21 @@ export default function Row(props) {
   };
 
   // handling star button click
-  const handleFavorite = function () {
-      setFavorite(!favorite);
+  const handleFavorite = async function () {
+    try {
+      const index = props.products.findIndex(
+        (p) => p._id === props.product._id
+      );
+      props.products[index].isFavorite = !props.products[index].isFavorite;
+      await axios.patch(
+        `http://localhost:8000/api/v1/products/${props.product._id}`,
+        { isFavorite: props.product.isFavorite }
+      );
+
+      setFavorite(props.product.isFavorite);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -34,7 +48,7 @@ export default function Row(props) {
               <Link
                 to={{
                   pathname: "/edit",
-                  search: props.product._id,//passing the product id through search parameter
+                  search: props.product._id, //passing the product id through search parameter
                 }}
               >
                 <img src="assets/edit-icon.svg" alt="edit" />
@@ -58,3 +72,4 @@ export default function Row(props) {
     </>
   );
 }
+

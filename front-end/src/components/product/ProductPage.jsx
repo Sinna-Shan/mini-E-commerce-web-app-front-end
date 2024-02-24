@@ -79,16 +79,31 @@ export default function Product(props) {
               <th className="tbl-prod-th"></th>
             </tr>
           </thead>
-          {products.map((prod) => (
-            <Row
-              key={prod._id}
-              del={del}
-              product={prod}
-              newProduct={product}
-              handelDelete={handelDelete}
-              setProduct={setProduct}
-            />
-          ))}
+          {props.heading === "favorites products"
+            ? products
+                .filter((prod) => prod.isFavorite === true)
+                .map((prod) => (
+                  <Row
+                    key={prod._id}
+                    del={del}
+                    product={prod}
+                    newProduct={product}
+                    handelDelete={handelDelete}
+                    setProduct={setProduct}
+                    products={products}
+                  />
+                ))
+            : products.map((prod) => (
+                <Row
+                  key={prod._id}
+                  del={del}
+                  product={prod}
+                  newProduct={product}
+                  handelDelete={handelDelete}
+                  setProduct={setProduct}
+                  products={products}
+                />
+              ))}
         </table>
       </div>
       <DeletePopup handelDelete={handelDelete} del={del} product={product} />
