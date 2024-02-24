@@ -17,8 +17,9 @@ export default function CrudPage(props) {
   });
   const fileInputRef = useRef(null);
   const location = useLocation();
-  const id = location.search.slice(1).toString();
+  const id = location.search.slice(1).toString(); // get the id from the Link
 
+  //finding the product from the database using id
   useEffect(function () {
     if (!id) return;
 
@@ -94,9 +95,11 @@ export default function CrudPage(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // creating new object to send to server
     const obj = { ...formDataValue, images: files };
     const data = new FormData();
 
+    // append data to form data object
     files.forEach((file) => data.append("files", file));
     data.append("SKU", obj.SKU);
     data.append("name", obj.name);
@@ -104,15 +107,18 @@ export default function CrudPage(props) {
     data.append("description", obj.description);
     data.append("isFavorite", obj.isFavorite);
 
+    //if id is not present create a new product
     if (!id) {
       submit(`http://localhost:8000/api/v1/products`, data);
     }
 
+    //if id is not present update the fetched product
     if (id) {
       handleUpdate(`http://localhost:8000/api/v1/products/${id}`, data);
     }
   };
 
+  // rendering loaded files when selecting
   const handleFileChange = (event) => {
     const files = event.target.files;
 
